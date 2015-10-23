@@ -1,0 +1,72 @@
+Name: pki-usgov-dod-cacerts
+Version: 0.0.3
+Release: 1%{?dist}
+Summary: A collection of U.S. Government CA Certs that DOD uses
+BuildArch: noarch
+
+# This package is security sensitive,
+#   certs are used to authenticate military websites
+# security@lists.fedoraproject.org
+
+# Group:          
+License: Public Domain
+# these certs are public domain for two reasons
+#  1) 17 USC 105 -- Government can't have copyright
+#  2) they are highly constrained "facts"
+
+%global commit0 deadbeefdeadbeef
+URL: https://github.com/pollei/firefox-usgov-dod-cfg
+Source0: pki-usgov-dod-%{version}.tar.gz       
+# URL and Source need to point to github
+# global commit0 40-CHARACTER-HASH-VALUE
+# global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+# Source0:  https://github.com/OWNER/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+
+# BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+# BuildRequires:  
+# Requires:       
+
+%description
+A collection of U.S. Government CA Certs that DOD uses
+ Department of Defense, Federal Common Policy
+ Useful for Army, Navy, Air Force, and Marines
+%prep
+%setup -q
+# %setup -qn %{name}-%{commit0}
+
+
+%build
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+mkdir -p ${RPM_BUILD_ROOT}/etc/pki/usgov_dod/cacerts/
+mkdir -p ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod/
+#cp usgov_pki_ca_certs/*.d/*.{pem,txt,crt} ${RPM_BUILD_ROOT}/etc/pki/usgov_dod/cacerts/
+cp cacerts/*.{pem,crt} ${RPM_BUILD_ROOT}/etc/pki/usgov_dod/cacerts/
+cat cacerts/*.txt > ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod/cacert-list.txt
+
+
+# %clean
+# rm -rf $RPM_BUILD_ROOT
+
+
+%files
+# %defattr(-,root,root,-)
+%config(noreplace) /etc/pki/usgov_dod/cacerts/
+%{_datadir}/pki-usgov-dod/
+%doc
+# doc AUTHORS ChangeLog LICENSE NEWS README TODO
+
+# https://fedoraproject.org/wiki/PackagingDrafts/Certificates
+
+%changelog
+* Thu Oct 22 2015 Steve Pollei <stephen.pollei@gmail.com> 0.0.3-1
+- Changed name from usgov_pki_ca_certs to pki-usgov-dod-cacerts IAW Packaging:NamingGuidelines 
+- moved human readable cert info into one big text file in /usr/share/pki-usgov-dod
+* Wed Oct 21 2015 Steve Pollei <stephen.pollei@gmail.com> 0.0.2-1
+- Noarch
+- following https://fedoraproject.org/wiki/PackagingDrafts/Certificates
+-   moved certs from /usr/share/foo to /etc/pki/usgov_dod/cacerts
+
