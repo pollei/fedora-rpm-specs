@@ -1,4 +1,4 @@
-## vim: filetype=spec
+   
 Name: pki-usgov-dod-cacerts
 Version: 0.0.4
 Release: 2%{?dist}
@@ -9,31 +9,31 @@ BuildArch: noarch
 #   certs are used to authenticate military websites
 # security@lists.fedoraproject.org
 
-## Group:          
+   
 License: Public Domain
 # these certs are public domain for two reasons
 #  1) 17 USC 105 -- Government can't have copyright
 #  2) they are highly constrained "facts"
 
-%global commit0 deadbeefdeadbeef
+%global commit0 a6b97e18190871d99609d39eb473bf23cadcd656
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 URL: https://github.com/pollei/pki-usgov-dod-cacerts
-## Source0: pki-usgov-dod-%{version}.tar.gz       
-## URL and Source need to point to github
-## global commit0 40-CHARACTER-HASH-VALUE
+   
+   
+   
 Source0:  https://github.com/pollei/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 
-## BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+   
 
 BuildRequires: perl(Digest::CRC) openssl
-## Requires:       
+   
 
 %description
 A collection of U.S. Government CA Certs that DOD uses
  Department of Defense, Federal Common Policy
  Useful for Army, Navy, Air Force, and Marines
 %prep
-## %setup -q
+   
 %setup -qn %{name}-%{commit0}
 
 
@@ -41,24 +41,24 @@ A collection of U.S. Government CA Certs that DOD uses
 ./extract_x509.sh
 
 %install
-## rm -rf $RPM_BUILD_ROOT
+   
 mkdir -p ${RPM_BUILD_ROOT}/etc/pki/usgov_dod/cacerts/
 mkdir -p ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod/
-## cp usgov_pki_ca_certs/*.d/*.{pem,txt,crt} ${RPM_BUILD_ROOT}/etc/pki/usgov_dod/cacerts/
+   
 cp pki-usgov-dod/cacerts/*.{pem,crt} ${RPM_BUILD_ROOT}/etc/pki/usgov_dod/cacerts/
 cat pki-usgov-dod/cacerts/*.txt > ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod/cacert-list.txt
 
 
-## %clean
-## rm -rf $RPM_BUILD_ROOT
+   
+   
 
 
 %files
-## %defattr(-,root,root,-)
+   
 %config(noreplace) /etc/pki/usgov_dod/cacerts/
 %{_datadir}/pki-usgov-dod/
 %doc README
-## %doc AUTHORS ChangeLog LICENSE NEWS README TODO
+   
 
 # https://fedoraproject.org/wiki/PackagingDrafts/Certificates
 
