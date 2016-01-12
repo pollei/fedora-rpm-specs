@@ -1,16 +1,16 @@
 ## vim: filetype=spec
 Name: firefox-usgov-dod-cfg
-Version: 0.0.2
+Version: 0.0.3
 Release: 1%{?dist}
 Summary: Help install certs and cac-card in a firefox profile
 BuildArch: noarch
-
+##
 # This package is security sensitive
 # it activates the use of CA in firefox that are used to access foo.mil sites via tls
-
+##
 ## Group:          
 License: GPLv3+
-# author probably willing to license under other floss type licenses if asked politely and given a good reason
+## author probably willing to license under other floss type licenses if asked politely and given a good reason
 ## URL and Source need to point to github
 %global commit0 deadbeefdeadbeef
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
@@ -20,12 +20,11 @@ URL: https://github.com/pollei/firefox-usgov-dod-cfg
 Source0:  https://github.com/pollei/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 
 ## BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
 ## BuildRequires:  
 ## Requires: pki-usgov-dod-cacerts perl firefox nss-util perl-Convert-ASN1 perl-Convert-PEM perl-Crypt-X509 coolkey
-Requires: pki-usgov-dod-cacerts perl firefox nss-util perl(Convert::ASN1) perl(Convert::PEM) perl(Crypt::X509) coolkey
-# Packaging:Perl
-
+Requires: pki-usgov-dod-cacerts perl firefox nss-util perl(Convert::ASN1) perl(Convert::PEM) perl(Crypt::X509) coolkey perl(Gtk3)
+## Packaging:Perl
+##
 %description
 Help install certs and cac-card in a firefox profile
 
@@ -42,27 +41,30 @@ firefox-usgov-dod-cfg-cli.pl
 
 %build
 
-
 %install
 ## rm -rf $RPM_BUILD_ROOT
 mkdir -p ${RPM_BUILD_ROOT}/%{_bindir}
 cp firefox-usgov-dod-cfg-cli.pl ${RPM_BUILD_ROOT}/%{_bindir}
 
-
 ## %clean
 ## rm -rf $RPM_BUILD_ROOT
-
-
+##
 %files
 ## %defattr(-,root,root,-)
 %{_bindir}/firefox-usgov-dod-cfg-cli.pl
 %doc README
 ## doc AUTHORS ChangeLog LICENSE NEWS README TODO
-
-# firefox-usgov-dod-cfg-gui is TODO
-# will contain a firefox-usgov-dod-cfg-gui.desktop when it does
+##
+## firefox-usgov-dod-cfg-gui is TODO
+## will contain a firefox-usgov-dod-cfg-gui.desktop when it does
 
 %changelog
+* Mon Jan 11 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.3-1
+- whitespace cleanup
+- added comments to source
+- added rough draft of desktop file
+* Tue Oct 27 2015 Steve Pollei <stephen.pollei@gmail.com> 0.0.2-2
+- added perl(Gtk3)
 * Fri Oct 23 2015 Steve Pollei <stephen.pollei@gmail.com> 0.0.2-1
 - Transitioned over to using github
 - added README

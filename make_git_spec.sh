@@ -37,4 +37,4 @@ fi
 # http://www.grymoire.com/Unix/Sed.html
 # I don't write very much sed better keep a reference handy
 sed -e "s/^%global commit0 [0-9a-fA-F]*/%global commit0 ${commit}/" \
-    -e "s/^## .*$/   /"  < ${pkg}.tspec > $pkg.spec
+    -e "/^##.*$/ d"  < ${pkg}.tspec > $pkg.spec
