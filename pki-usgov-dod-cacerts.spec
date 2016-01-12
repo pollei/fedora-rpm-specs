@@ -1,6 +1,6 @@
 Name: pki-usgov-dod-cacerts
 Version: 0.0.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A collection of U.S. Government CA Certs that DOD uses
 BuildArch: noarch
 # This package is security sensitive,
@@ -14,9 +14,9 @@ URL: https://github.com/pollei/pki-usgov-dod-cacerts
 Source0:  https://github.com/pollei/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 BuildRequires: perl(MIME::Base64) perl(Digest::CRC) openssl
 %description
-A collection of U.S. Government CA Certs that DOD uses
-Department of Defense, Federal Common Policy
-Useful for Army, Navy, Air Force, and Marines
+A collection of U.S. Government CA Certs that the DOD uses.
+Has Department of Defense, and Federal Common Policy certs.
+Useful for Army, Navy, Air Force, and Marines.
 %prep
 %setup -qn %{name}-%{commit0}
 
@@ -35,6 +35,8 @@ cat pki-usgov-dod/cacerts/*.txt > ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod/ca
 %doc README
 
 %changelog
+* Mon Jan 11 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.6-2
+- updated description with periods and a little better grammar
 * Mon Jan 11 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.6-1
 - lowered perl version to 5.10 to hopefully work in epel6
 - added perl(MIME::Base64) to buildrequires to work in rawhide
