@@ -1,18 +1,18 @@
-Name: pki-usgov-dod-cacerts
-Version: 0.0.6
-Release: 2%{?dist}
-Summary: A collection of U.S. Government CA Certs that DOD uses
-BuildArch: noarch
-# This package is security sensitive,
-#   certs are used to authenticate military websites
-# security@lists.fedoraproject.org
-License: Public Domain
-
 %global commit0 8dc419c5644fc7305f757ec571406f5b2e0a96af
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+Name: pki-usgov-dod-cacerts
+Version: 0.0.6
+Release: 3%{?dist}
+Summary: A collection of U.S. Government CA Certs that DOD uses
+BuildArch: noarch
+License: Public Domain
+# these certs are public domain for two reasons
+#  1) 17 USC 105 -- Government can't have copyright
+#  2) they are highly constrained "facts"
+
 URL: https://github.com/pollei/pki-usgov-dod-cacerts
 Source0:  https://github.com/pollei/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
-BuildRequires: perl(MIME::Base64) perl(Digest::CRC) openssl
+BuildRequires: perl perl(MIME::Base64) perl(Digest::CRC) openssl
 %description
 A collection of U.S. Government CA Certs that the DOD uses.
 Has Department of Defense, and Federal Common Policy certs.
@@ -24,17 +24,20 @@ Useful for Army, Navy, Air Force, and Marines.
 ./extract_x509.sh
 
 %install
-mkdir -p ${RPM_BUILD_ROOT}/etc/pki/usgov-dod/cacerts/
-mkdir -p ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod/
-cp pki-usgov-dod/cacerts/*.{pem,crt} ${RPM_BUILD_ROOT}/etc/pki/usgov-dod/cacerts/
-cat pki-usgov-dod/cacerts/*.txt > ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod/cacert-list.txt
+mkdir -p ${RPM_BUILD_ROOT}/etc/pki/pki-usgov-dod-cacerts/cacerts/
+mkdir -p ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod-cacerts/
+cp pki-usgov-dod/cacerts/*.{pem,crt} ${RPM_BUILD_ROOT}/etc/pki/pki-usgov-dod-cacerts/cacerts/
+cat pki-usgov-dod/cacerts/*.txt > ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod-cacerts/cacert-list.txt
 
 %files
-%config /etc/pki/usgov-dod/cacerts/
-%{_datadir}/pki-usgov-dod/
+%config /etc/pki/pki-usgov-dod-cacerts/cacerts/
+%{_datadir}/pki-usgov-dod-cacerts/
 %doc README
 
 %changelog
+* Tue Jan 12 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.6-3
+- changed /etc/pki/usgov-dod/cacerts to /etc/pki/pki-usgov-dod-cacerts/cacerts
+-       see https://bugzilla.redhat.com/show_bug.cgi?id=1274948#c5
 * Mon Jan 11 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.6-2
 - updated description with periods and a little better grammar
 * Mon Jan 11 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.6-1
