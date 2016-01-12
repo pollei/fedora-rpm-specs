@@ -2,12 +2,12 @@
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 Name: pki-usgov-dod-cacerts
 Version: 0.0.6
-Release: 3%{?dist}
-Summary: A collection of U.S. Government CA Certs that DOD uses
+Release: 4%{?dist}
+Summary: A collection of U.S. Government CA Certs that the DOD uses
 BuildArch: noarch
 License: Public Domain
 # these certs are public domain for two reasons
-#  1) 17 USC 105 -- Government can't have copyright
+#  1) 17 USC 105 -- US Government can't have copyright in things they create
 #  2) they are highly constrained "facts"
 
 URL: https://github.com/pollei/pki-usgov-dod-cacerts
@@ -22,19 +22,26 @@ Useful for Army, Navy, Air Force, and Marines.
 
 %build
 ./extract_x509.sh
+cat pki-usgov-dod/cacerts/*.txt > cacert-list.txt
 
 %install
-mkdir -p ${RPM_BUILD_ROOT}/etc/pki/pki-usgov-dod-cacerts/cacerts/
+mkdir -p ${RPM_BUILD_ROOT}/%{_sysconfdir}/pki/pki-usgov-dod-cacerts/cacerts/
 mkdir -p ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod-cacerts/
-cp pki-usgov-dod/cacerts/*.{pem,crt} ${RPM_BUILD_ROOT}/etc/pki/pki-usgov-dod-cacerts/cacerts/
-cat pki-usgov-dod/cacerts/*.txt > ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod-cacerts/cacert-list.txt
+cp -a pki-usgov-dod/cacerts/*.{pem,crt} ${RPM_BUILD_ROOT}/%{_sysconfdir}/pki/pki-usgov-dod-cacerts/cacerts/
+cp -a cacert-list.txt ${RPM_BUILD_ROOT}/%{_datadir}/pki-usgov-dod-cacerts/
 
 %files
-%config /etc/pki/pki-usgov-dod-cacerts/cacerts/
+%dir %{_sysconfdir}/pki/pki-usgov-dod-cacerts/
+%config %{_sysconfdir}/pki/pki-usgov-dod-cacerts/cacerts/
 %{_datadir}/pki-usgov-dod-cacerts/
 %doc README
 
 %changelog
+* Tue Jan 12 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.6-4
+- use %{_sysconfdir} instead of /etc/
+- use `cp -a` to preserve build timestamps
+- create cacert-list.txt at build time not install time
+- properly own /etc/pki/pki-usgov-dod-cacerts/
 * Tue Jan 12 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.6-3
 - changed /etc/pki/usgov-dod/cacerts to /etc/pki/pki-usgov-dod-cacerts/cacerts
 -       see https://bugzilla.redhat.com/show_bug.cgi?id=1274948#c5
