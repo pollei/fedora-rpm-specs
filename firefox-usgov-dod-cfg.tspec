@@ -1,6 +1,6 @@
 ## vim: filetype=spec
 Name: firefox-usgov-dod-cfg
-Version: 0.0.3
+Version: 0.0.4
 Release: 1%{?dist}
 Summary: Help install certs and cac-card in a firefox profile
 BuildArch: noarch
@@ -28,10 +28,10 @@ Requires: pki-usgov-dod-cacerts perl firefox nss-util perl(Convert::ASN1) perl(C
 %description
 Help install certs and cac-card in a firefox profile
 
-firefox-usgov-dod-cfg-cli.pl
+firefox-usgov-dod-cfg.pl
   The command that installs certs, and sets up coolkey for cac-card access
   It changes only one firefox profile
-  example usage: `./dod_firefox_cli_cfg.pl DOD-default`
+  example usage: `./firefox-usgov-dod-cfg.pl`
  TODO Useful for Army, Navy, Air Force, and Marines TODO
  **WARN** Early alpha read the source before use **WARN**
  WIP Work in progress aka doesn't do what description says yet WIP
@@ -44,14 +44,14 @@ firefox-usgov-dod-cfg-cli.pl
 %install
 ## rm -rf $RPM_BUILD_ROOT
 mkdir -p ${RPM_BUILD_ROOT}/%{_bindir}
-cp firefox-usgov-dod-cfg-cli.pl ${RPM_BUILD_ROOT}/%{_bindir}
+cp firefox-usgov-dod-cfg.pl ${RPM_BUILD_ROOT}/%{_bindir}
 
 ## %clean
 ## rm -rf $RPM_BUILD_ROOT
 ##
 %files
 ## %defattr(-,root,root,-)
-%{_bindir}/firefox-usgov-dod-cfg-cli.pl
+%{_bindir}/firefox-usgov-dod-cfg.pl
 %doc README
 ## doc AUTHORS ChangeLog LICENSE NEWS README TODO
 ##
@@ -59,6 +59,8 @@ cp firefox-usgov-dod-cfg-cli.pl ${RPM_BUILD_ROOT}/%{_bindir}
 ## will contain a firefox-usgov-dod-cfg-gui.desktop when it does
 
 %changelog
+* Tue Jan 26 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.4-1
+- getopt long , perlcritic, refactor
 * Mon Jan 11 2016 Steve Pollei <stephen.pollei@gmail.com> 0.0.3-1
 - whitespace cleanup
 - added comments to source
